@@ -10,6 +10,8 @@ public class StartWindow extends JFrame implements ActionListener {
 
     private int width, height;
     private JButton startGame, startMusic;
+
+    private boolean gameStarted;
     public StartWindow() {
         super("Space Game");
         width = 600;
@@ -96,6 +98,7 @@ public class StartWindow extends JFrame implements ActionListener {
 
 
 
+        gameStarted = false;
 
         startGame.addActionListener(this);
         startMusic.addActionListener(this);
@@ -109,20 +112,21 @@ public class StartWindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-
-        System.out.println("a button clicked");
-
         if (e.getSource() == startGame) {
-            System.out.println("startGame clicked...");
-            //add a new SpaceWindow + give it the image
-            try {
-                new SpaceWindow(ImageIO.read(new File("spaceshipR.png")));
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+            if (!gameStarted ){
+                System.out.println("startGame clicked...");
+                //add a new SpaceWindow + give it the image
+                try {
+                    new SpaceWindow(ImageIO.read(new File("spaceshipR.png")));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                gameStarted = true;
+                startGame.setText("Stop Game");
+            }else {
+                //TODO: stop the game
+                System.out.println("stopGame clicked...");
             }
-
-
         }
-
     }
 }

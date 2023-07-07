@@ -1,10 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 
-public class SpaceGame extends JPanel implements ActionListener {
+public class SpaceGame extends JPanel {
 
 
     private Image spaceShip;
@@ -36,30 +34,24 @@ public class SpaceGame extends JPanel implements ActionListener {
         // Draw the spaceship with the image, x, y, width, and height
         g.drawImage(spaceShip, shipX, shipY, shipWidth, shipHeight, this);
 
-        g.setColor(Color.YELLOW);
-        g.fillOval(70, 70, 100, 100);
-
-        g.setColor(Color.RED);
-        g.fillOval(600, 500, 100, 100);
-
-        g.setColor(Color.WHITE);
-        g.drawString("Points", 5,15);
-
-        g.setColor(Color.GREEN);
-        g.fillRect(300, 300, 100, 100);
-
-        g.setColor(Color.WHITE);
-        //g.fillPolygon(int[], int[], int);
-        int[] x = {100, 200, 300, 100, 300, 145};
-        int[] y = {100, 200, 300, 100, 150, 234 };
-        g.fillPolygon(x, y, 4);
-
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-
-
+    private void fly (){
+        //add a key listener to the panel + override the key listener methods
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+            }
+        });
     }
+
+
+
+
+
 }
