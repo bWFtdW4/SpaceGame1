@@ -123,6 +123,7 @@ public class StartWindow extends JFrame implements ActionListener {
                 }
                 gameStarted = true;
                 startGame.setText("Stop Game");
+
             }else {
                 //TODO: stop the game
                 System.out.println("stopGame clicked...");
