@@ -50,7 +50,7 @@ public class StartWindow extends JFrame implements ActionListener {
 
         // Create a button for Start Game
         startGame = new JButton();
-        startGame.setText("Start Game");
+        startGame.setText("New Game");
 
         // Set the button to not be painted
         startGame.setBorderPainted(false);
@@ -122,11 +122,12 @@ public class StartWindow extends JFrame implements ActionListener {
                     throw new RuntimeException(ex);
                 }
                 gameStarted = true;
-                startGame.setText("Stop Game");
+                //startGame.setText("Stop Game");
 
             }else {
                 //TODO: stop the game
-                System.out.println("stopGame clicked...");
+                //System.out.println("stopGame clicked...");
+                gameStarted = false;
             }
         }
     }

@@ -12,12 +12,17 @@ public class SpaceGame extends JPanel implements ActionListener {
     private int shipX, shipY;
     private int speed = 10;
     private boolean isLeftPressed, isRightPressed, isUpPressed, isDownPressed;
-    private int delay = 40;
+    private int delay = 10;
     private Timer timer = new Timer(delay, this);
-    private int newStarCounter = 0;
     private Color starColor = Color.RED;
     private int starWidth = 15, starHeight = 15;
     private int starX, starY;
+    private int newStarCounter = 0;
+    private boolean planetDiscovered = false;
+    private int playerPoints, starCounter;
+    private boolean gameOver = false;
+
+
 
     public SpaceGame(Image i, int w, int h) {
 
@@ -38,6 +43,7 @@ public class SpaceGame extends JPanel implements ActionListener {
         // Start the timer
         timer.start();
 
+
     }
 
     @Override
@@ -50,6 +56,17 @@ public class SpaceGame extends JPanel implements ActionListener {
         g.setColor(starColor);
         g.fillOval(starX, starY, starWidth, starHeight);
 
+        g.setColor(Color.white);
+        g.drawString("Points: " + playerPoints, 10, 20);
+        g.drawString("Stars: " + starCounter, 100, 20);
+
+        if (gameOver) {
+            g.setColor(Color.white);
+            g.drawString("Mission ended!", spaceWidth/2, spaceHeight/2);
+            g.setColor(Color.WHITE);
+            g.drawString("Your Points: " + playerPoints, spaceWidth/2, spaceHeight/2 + 50);
+
+        }
     }
 
     private void fly() {
@@ -74,6 +91,18 @@ public class SpaceGame extends JPanel implements ActionListener {
                     case KeyEvent.VK_DOWN:
                         isDownPressed = true;
                         break;
+                    case KeyEvent.VK_D:
+                        isRightPressed = true;
+                        break;
+                    case KeyEvent.VK_A:
+                        isLeftPressed = true;
+                        break;
+                    case KeyEvent.VK_W:
+                        isUpPressed = true;
+                        break;
+                    case KeyEvent.VK_S:
+                        isDownPressed = true;
+                        break;
                 }
             }
 
@@ -95,6 +124,18 @@ public class SpaceGame extends JPanel implements ActionListener {
                     case KeyEvent.VK_DOWN:
                         isDownPressed = false;
                         break;
+                    case KeyEvent.VK_D:
+                        isRightPressed = false;
+                        break;
+                    case KeyEvent.VK_A:
+                        isLeftPressed = false;
+                        break;
+                    case KeyEvent.VK_W:
+                        isUpPressed = false;
+                        break;
+                    case KeyEvent.VK_S:
+                        isDownPressed = false;
+                        break;
                 }
             }
 
@@ -111,6 +152,10 @@ public class SpaceGame extends JPanel implements ActionListener {
         newStarCounter -= 1;
 
         if (newStarCounter < 0){
+
+            planetDiscovered = false;
+            starColor = Color.RED;
+            starCounter++;
 
             // Create a random star
             Random randomStar = new Random();
@@ -156,26 +201,45 @@ public class SpaceGame extends JPanel implements ActionListener {
         }
         //System.out.println("X: " + shipX + " Y: " + shipY);
 
+        //collision detection
+        if (collision() && !planetDiscovered){
+
+            planetDiscovered = true;
+
+            playerPoints++;
+            System.out.println("Player points: " + playerPoints + " Star counter: " + starCounter);
+
+            starColor = Color.GREEN;
+
+            if (newStarCounter > 12){
+                newStarCounter = 5;
+            }
+        }
+
+        gameOver();
         repaint();
 
 
+    }
 
 
+    private boolean collision(){
 
+        return  shipX < starX + starWidth &&
+                shipY < starY + starHeight &&
+                starX < shipX + shipWidth &&
+                starY < shipY + shipHeight;
 
     }
 
-    private void drawRandomStar() {
+    public void gameOver(){
 
-        Random random = new Random();
-        // Generate a random number between shipX and shipWidth
-        int x = random.nextInt(shipWidth) + shipX;
-        System.out.println("random X: " + x);
-        int y = random.nextInt(shipHeight) + shipY;
-        System.out.println("random Y: " + y);
-        starY = y;
-        starX = x;
+        if (starCounter == 10){
+            gameOver = true;
+            timer.stop();
+            System.out.println("Game Over");
+
+        }
 
     }
-
 }
