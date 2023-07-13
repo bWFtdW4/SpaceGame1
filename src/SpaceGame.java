@@ -21,6 +21,7 @@ public class SpaceGame extends JPanel implements ActionListener {
     private boolean planetDiscovered = false;
     private int playerPoints, starCounter;
     private boolean gameOver = false;
+    private int winCondition = 10;
 
 
 
@@ -61,10 +62,10 @@ public class SpaceGame extends JPanel implements ActionListener {
         g.drawString("Stars: " + starCounter, 100, 20);
 
         if (gameOver) {
-            g.setColor(Color.white);
-            g.drawString("Mission ended!", spaceWidth/2, spaceHeight/2);
-            g.setColor(Color.WHITE);
-            g.drawString("Your Points: " + playerPoints, spaceWidth/2, spaceHeight/2 + 50);
+            g.setColor(Color.GREEN);
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+            g.drawString("Mission completed!", spaceWidth/2 - 140, spaceHeight/2);
+            g.drawString("Your Points: " + playerPoints + " out of " + winCondition, spaceWidth/2 - 170, spaceHeight/2 + 50);
 
         }
     }
@@ -234,7 +235,7 @@ public class SpaceGame extends JPanel implements ActionListener {
 
     public void gameOver(){
 
-        if (starCounter == 10){
+        if (starCounter == winCondition){
             gameOver = true;
             timer.stop();
             System.out.println("Game Over");
